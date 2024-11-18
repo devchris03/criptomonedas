@@ -1,3 +1,6 @@
+// --------------------- SELECTORES ---------------------
+const select = document.querySelector('#criptomoneda');
+
 // --------------------- EVENTOS ---------------------
 
 window.addEventListener('load', () => {
@@ -23,5 +26,12 @@ function consultCriptonedas() {
 
 // muestra criptomonedas
 function showCriptomonedas(criptomonedas) {
-    
+    criptomonedas.forEach(cripto => {
+        const {FullName, Name} = cripto.CoinInfo;
+        const option = document.createElement('OPTION');
+        option.value = Name;
+        option.textContent = FullName;
+
+        select.appendChild(option)
+    })
 }
