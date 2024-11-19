@@ -63,6 +63,7 @@ function submitForm(event) {
 
     if(moneda === '' || criptomoneda === '') {
         showAlert('Ambos campos son obligatorios');
+        return;
     };
 
     consultAPI()
@@ -83,6 +84,8 @@ function consultAPI() {
 
 // muestra información
 function showResult(result) {
+
+    cleanHTML();
 
     const {PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE} = result;
 
@@ -117,6 +120,13 @@ function showAlert(msg) {
         setTimeout(() => {
             error.remove();
         }, 3000)
+    }
+}
+
+// limpia resultado previo
+function cleanHTML() {
+    while(details.firstChild) {
+        details.removeChild(details.firstChild)
     }
 }
 
