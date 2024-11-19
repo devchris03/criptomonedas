@@ -58,6 +58,13 @@ img {
     cursor: pointer;
 }
 
+.error {
+    background: rgb(199, 4, 4);
+    color: whitesmoke;
+    text-align: center;
+    padding-block: 1rem;
+}
+
 
 /* media queries */
 @media (width >= 550px) {
