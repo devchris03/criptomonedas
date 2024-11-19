@@ -2,6 +2,7 @@
 const selectCriptomoneda = document.querySelector('#criptomoneda');
 const selectMoneda = document.querySelector('#moneda');
 const form = document.querySelector('#form');
+const details = document.querySelector('#details');
 
 // --------------------- VARIABLES ---------------------
 const objSelect = {
@@ -62,7 +63,45 @@ function submitForm(event) {
 
     if(moneda === '' || criptomoneda === '') {
         showAlert('Ambos campos son obligatorios');
-    }
+    };
+
+    consultAPI()
+}
+
+
+// consulta API
+function consultAPI() {
+    const {moneda, criptomoneda} = objSelect;
+
+    const urlAPI = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
+
+    fetch(urlAPI)
+        .then(result => result.json())
+        .then(result => showResult(result.DISPLAY[criptomoneda][moneda]))
+}
+
+
+// muestra información
+function showResult(result) {
+
+    const {PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE} = result;
+
+    const price = document.createElement('P');
+    price.innerHTML = `El precio es: <span>${PRICE}</span>`;
+    
+    const higDay = document.createElement('P');
+    higDay.innerHTML = `Precio más alto del día: <span>${HIGHDAY}</span>`;
+    
+    const lowDay = document.createElement('P');
+    lowDay.innerHTML = `Precio más bajo del día: <span>${LOWDAY}</span>`;
+    
+    const change = document.createElement('P');
+    change.innerHTML = `Varición últimas 24 horas: <span>${CHANGEPCT24HOUR}%</span>`;
+    
+    const lastUpdate = document.createElement('P');
+    lastUpdate.innerHTML = `Última actualización: <span>${LASTUPDATE}</span>`;
+
+    details.append(price, higDay, lowDay, change, lastUpdate)
 }
 
 
