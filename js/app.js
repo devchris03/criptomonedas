@@ -27,13 +27,17 @@ const getCriptomonedas = criptomonedas => new Promise (resolve => {
 })
 
 // consultar tipos de criptomonedas
-function consultCriptonedas() {
+async function consultCriptonedas() {
     const url = "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD"
 
-    fetch(url)
-        .then(result => result.json())
-        .then(result => getCriptomonedas(result.Data))
-        .then(criptomonedas => showCriptomonedas(criptomonedas))
+    try {
+        const result = await fetch(url);
+        const resultado = await result.json();
+        const criptomonedas = await getCriptomonedas(resultado.Data);
+        showCriptomonedas(criptomonedas);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // muestra criptomonedas
@@ -71,14 +75,18 @@ function submitForm(event) {
 
 
 // consulta API
-function consultAPI() {
+async function consultAPI() {
     const {moneda, criptomoneda} = objSelect;
 
     const urlAPI = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
 
-    fetch(urlAPI)
-        .then(result => result.json())
-        .then(result => showResult(result.DISPLAY[criptomoneda][moneda]))
+    try {
+        const result = await fetch(urlAPI);
+        const resultado = await result.json();
+        showResult(resultado.DISPLAY[criptomoneda][moneda])
+    } catch (error) {
+        
+    }
 }
 
 
